@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="plateit_banner.png" alt="PlateIt Hero Banner" width="100%">
+  <img src="plateit_banner.png" alt="PlateIt Hero Banner" height="400" width="400">
 </p>
 
 # PlateIt 🍽️ - The Multimodal AI Culinary Orchestrator
