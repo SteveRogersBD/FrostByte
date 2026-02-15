@@ -20,3 +20,9 @@ local.properties
 build_output.txt
 *.pyc
 __pycache__/
+
+# Credentials and Keystores
+my-release-key
+*.jks
+*.keystore
+youtube_cookies.txt

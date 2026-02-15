@@ -1,33 +1,38 @@
 # PlateIt AI Agent 🧠
 
-The Core Intelligence of the application. This module orchestrates complex culinary workflows using **LangGraph** and is powered by **Google Gemini 3.0 Flash Preview**.
+[![LangGraph](https://img.shields.io/badge/Orchestration-LangGraph-orange.svg)](https://langchain-ai.github.io/langgraph/)
+[![Gemini](https://img.shields.io/badge/Brain-Gemini%203.0%20Flash-blue.svg)](https://deepmind.google/technologies/gemini/)
+
+The **PlateIt AI Agent** is the core intelligence layer of the application. Powering the "Better Agent" workflow, it uses **LangGraph** to manage stateful, multi-step culinary tasks—from watching YouTube videos to identifying raw ingredients in a messy fridge.
+
+---
 
 ## 🚀 The "Better Agent" Workflow
 
-The agent is designed as a state machine that can handle multiple types of inputs (Text, YouTube Links, Images, Videos) and convert them into a structured `Recipe` format.
+Our agent is designed as a sophisticated state machine. It doesn't just process text; it "thinks" through different input modalities to produce a structured, high-quality recipe card.
 
 ```mermaid
 graph TD
-    Start[User Input] --> Router{Router}
+    Start[User Input] --> Router{Input Router}
     
-    Router -->|YouTube URL| YouTube[Extract Transcript & Details]
-    Router -->|Video File| Video[Vision Analysis]
-    Router -->|Food Image| Image[Vision Analysis]
-    Router -->|Website URL| Scrape[Web Scraper]
+    Router -->|YouTube/Social URL| YouTube[Native Video Parsing]
+    Router -->|Video File| Video[Multimodal Analysis]
+    Router -->|Food Image| Image[Vision Reasoning]
+    Router -->|Website/Blog| Scrape[Structured Scraping]
     
-    YouTube --> TextExtract[LLM Text Extraction]
+    YouTube --> TextExtract[Gemini Context Extraction]
     Video --> TextExtract
     Scrape --> TextExtract
     
-    Image -->|Ingredients| IngLogic[Find Recipe by Ingredients]
-    Image -->|Finished Dish| DishLogic[Identify Dish & Generate Recipe]
+    Image -->|Ingredients| IngLogic[Inventory Matching]
+    Image -->|Finished Dish| DishLogic[Visual Recipe Generation]
     
-    TextExtract --> Format[Format to JSON Schema]
+    TextExtract --> Format[GPT-4o Schema Validation]
     IngLogic --> Format
     DishLogic --> Format
     
-    Format --> Enrich[Image Enrichment Parallel]
-    Enrich --> Merge[Combine Data]
+    Format --> Enrich[Parallel Visual Enrichment]
+    Enrich --> Merge[Data Synthesis]
     Merge --> End[Final Recipe JSON]
 ```
 
@@ -35,38 +40,36 @@ graph TD
 
 ## 🛠️ The Chef's Toolkit
 
-The agent has access to a specialized suite of tools, allowing it to interact with the real world:
+The agent leverages a specialized toolset to bridge the gap between AI reasoning and the culinary world:
 
-### 1. Vision Capability
-- **`analyze_image`**: Determines if an image is raw ingredients or a cooked meal.
-- **`pantry_scan`**: Identifies multiple items in a single photo for inventory using Gemini 3's native multimodal powers.
+### 1. Vision & Multimodal Capabilities
+- **`analyze_image`**: Distinguishes between raw ingredients and plated meals to route the workflow correctly.
+- **`pantry_scan`**: Uses Gemini's native vision to identify dozens of items in a single fridge photo for instant inventory updates.
 
-### 2. Information Retrieval
-- **`search_recipes`**: Queries Spoonacular for verified recipes.
-- **`find_by_ingredients`**: Reverse search—finds what you can cook with what you have.
-- **`search_youtube`**: Finds relevant video tutorials with thumbnails.
-- **`google_search`**: General culinary knowledge retrieval.
+### 2. External Intelligence
+- **`search_recipes`**: Accesses a database of over 500k+ verified recipes via Spoonacular.
+- **`find_by_ingredients`**: Calculates culinary potential based on the user's current pantry stock.
+- **`search_youtube`**: Contextually finds video tutorials to supplement recipe steps.
 
-### 3. Data Processing
-- **`extract_video_id`**: Parses YouTube URLs.
-- **`download_video_file`**: Handles social media video downloads for deep multimodal analysis.
-
----
-
-## 🤖 Why Gemini 3?
-
-We utilize **Gemini 3.0 Flash Preview** as our primary orchestrator for several reasons:
-1.  **Multimodal Native**: It can "see" food images and "watch" cooking videos directly without needing separate OCR or complex frame-extraction pipelines.
-2.  **Long Context Window**: Essential for processing full video transcripts or lengthy blog posts to extract accurate recipe steps.
-3.  **Advanced Reasoning**: Acts as the "Orchestrator" in our multi-agent setup, delegating tasks to other models (like GPT-4o for JSON formatting) while maintaining the creative vision.
-4.  **Speed**: The Flash model provides near-instant responses, crucial for real-time cooking assistance.
+### 3. Media Processing
+- **`extract_video_id`**: High-precision parsing for social media handles.
+- **`download_video_file`**: Automates video acquisition for deep multimodal analysis when descriptions are insufficient.
 
 ---
 
-## 📂 Key Files
+## 🤖 Why Gemini 3.0 Flash?
 
-- **`better_agent.py`**: The main LangGraph workflow definition (using Gemini 3 as the Orchestrator).
-- **`chef_agent.py`**: The conversational persona (Chatbot) logic for the step-by-step assistant.
-- **`agent_server.py`**: The FastAPI entry point for all mobile app interactions.
-- **`tools.py`**: The complete library of external tool functions.
-- **`schemas.py` / `models.py`**: Pydantic and SQLModel definitions for data validation and persistence.
+We utilize **Gemini 3.0 Flash Preview** as our primary orchestrator for its industry-leading capabilities:
+1. **Native Multimodal Support**: It processes video and images as first-class citizens, eliminating the need for complex, lossy pre-processing.
+2. **Massive Context Window**: Allows the agent to ingest entire video transcripts or long-form culinary blogs while maintaining perfect recall.
+3. **Agentic Reasoning**: Acts as the "Director," delegating structured data tasks to worker models (like GPT-4o) while maintaining the creative "soul" of the recipe.
+
+---
+
+## 📂 Key Architecture Files
+
+- **`better_agent.py`**: The definitive LangGraph workflow and state machine logic.
+- **`chef_agent.py`**: The conversational persona and real-time guidance system.
+- **`agent_server.py`**: FastAPI entry point and mobile communication layer.
+- **`tools.py`**: The underlying implementation of the Chef's Toolkit.
+- **`schemas.py` & `models.py`**: Strict Pydantic and SQLModel definitions for data integrity.

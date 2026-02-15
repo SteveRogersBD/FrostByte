@@ -1,20 +1,26 @@
 # PlateIt Backend 🐍
 
-The PlateIt Backend is a robust FastAPI service responsible for handling user authentication, data management (via Supabase), and orchestrating AI-driven interactions using LangGraph and Google Gemini 3.
+[![FastAPI](https://img.shields.io/badge/API-FastAPI-009688.svg)](https://fastapi.tiangolo.com/)
+[![PostgreSQL](https://img.shields.io/badge/Database-PostgreSQL-336791.svg)](https://www.postgresql.org/)
+[![Supabase](https://img.shields.io/badge/Platform-Supabase-3ECF8E.svg)](https://supabase.com/)
 
-## 🏗️ Architecture
+The **PlateIt Backend** is a high-performance, asynchronous FastAPI service that serves as the "Central Nervous System" of the application. It handles identity management, real-time data persistence, and coordinates the complex LangGraph workflows that drive our AI-native features.
 
-### Database Schema (ER Diagram)
+---
 
-The backend uses a relational database model managed by Supabase (PostgreSQL). Below is the Entity-Relationship logic:
+## 🏗️ Architecture & Data Modeling
+
+The system is built on a scalable relational foundation hosted on **Supabase**. Our schema is designed to support deep context for the Chef Agent, tracking not just recipes but the user's physical inventory and session history.
+
+### Strategic Entity Logic (ERD)
 
 ```mermaid
 erDiagram
-    USER ||--o{ PANTRY_ITEM : has
-    USER ||--o{ RECIPE : saves
-    USER ||--o{ CHAT_SESSION : owns
-    USER ||--o{ VIDEO_RECOMMENDATION : receives
-    CHAT_SESSION ||--o{ MESSAGE : contains
+    USER ||--o{ PANTRY_ITEM : "manages inventory"
+    USER ||--o{ RECIPE : "saves"
+    USER ||--o{ CHAT_SESSION : "initiates"
+    USER ||--o{ VIDEO_RECOMMENDATION : "receives"
+    CHAT_SESSION ||--o{ MESSAGE : "contains"
 
     USER {
         uuid id PK
@@ -41,7 +47,7 @@ erDiagram
     MESSAGE {
         int id PK
         string session_id FK
-        string sender "user|ai"
+        string sender "user|ai|system"
         string content
         string ui_type
         json recipe_data
@@ -50,56 +56,48 @@ erDiagram
 
 ---
 
-## 🔌 API Endpoints
+## 🔌 Core API Endpoints
 
-### Authentication & User
-- `POST /signup`: Register a new user.
-- `POST /signin`: Authenticate user.
-- `GET /users/profile/{user_id}`: Fetch user profile details.
-- `POST /users/preferences`: Update culinary preferences.
-- `GET /users/stats/{user_id}`: Get cooking statistics (recipes, sessions, active days).
+### 🔐 Authentication & Identity
+- `POST /signup`: Secure user registration.
+- `POST /signin`: JWT-based authentication.
+- `GET /users/profile/{user_id}`: Comprehensive profile retrieval.
+- `POST /users/preferences`: Dynamic update of culinary tastes.
+- `GET /users/stats/{user_id}`: Real-time analytics (recipes cooked, active streaks).
 
-### Pantry Management
-- `POST /pantry/scan_image`: Upload a photo to detect ingredients (Gemini 3 Vision).
-- `POST /pantry/add`: Manually add an item.
-- `GET /pantry/{user_id}`: Retrieve all pantry items.
-- `DELETE /pantry/{item_id}`: Remove an item.
+### 🥫 Intelligent Pantry
+- `POST /pantry/scan_image`: Gemini 3 powered visual ingredient detection.
+- `POST /pantry/add`: Manual entry with auto-categorization.
+- `GET /pantry/{user_id}`: Full synchronized inventory.
+- `DELETE /pantry/{item_id}`: Inventory decrement/removal.
 
-### AI & Recipes
-- `POST /chat`: Interact with the Chef Agent (Context-aware, supports multimodal inputs).
-- `GET /chat/sessions/{user_id}`: List all chat history threads.
-- `GET /chat/history/{thread_id}`: Fetch messages for a specific session.
-- `POST /extract_recipe`: Convert a YouTube/Web URL into a structured recipe.
-- `POST /extract_recipe_image`: Convert a recipe photo into structured JSON.
-- `POST /recipes/identify_dish`: Identify a cooked dish from an image and generate its recipe.
-- `GET /recipes/findByIngredients`: Discover recipes based on pantry items.
-- `GET /recipes/{recipe_id}/full`: Get detailed info for a specific recipe ID.
-
-### Recommendations
-- `GET /recommendations/videos/{user_id}`: Get personalized YouTube cooking video suggestions based on preferences.
+### 🧠 AI Orchestration & Recipes
+- `POST /chat`: Multi-agent conversation via Gemini 3 + LangGraph.
+- `GET /chat/sessions/{user_id}`: Persistent thread management.
+- `POST /extract_recipe`: End-to-end video/URL to structured JSON.
+- `POST /extract_recipe_image`: OCR & Vision parsing of physical recipe text.
+- `POST /recipes/identify_dish`: Visual dish identification & recipe generation.
+- `GET /recipes/findByIngredients`: Proactive recipe discovery based on available stock.
 
 ---
 
-## 🛠️ Setup & Run
+## 🛠️ Infrastructure Setup
 
-1. **Install Dependencies**:
+1. **Environment Preparation**:
    ```bash
-   cd Agent
-   pip install -r requirements.txt
+   pip install -r Agent/requirements.txt
    ```
 
-2. **Environment Variables**:
-   Create a `.env` file in the `Agent/` directory:
+2. **Configuration**:
+   Ensure your `.env` in the `Agent/` directory contains:
    ```env
-   DATABASE_URL=your_supabase_url
-   GEMINI_API_KEY=your_google_ai_key
+   DATABASE_URL=your_supabase_connection_string
+   GEMINI_API_KEY=your_google_ai_studio_key
    OPEN_API_KEY=your_openai_key
-   SPOONACULAR_API_KEY=your_spoonacular_key
-   PEXELS_API_KEY=your_pexels_key
    ```
 
-3. **Start Server**:
+3. **Deployment**:
    ```bash
-   # From the /BackEnd/Agent directory
-   uvicorn agent_server:app --reload --host 0.0.0.0 --port 8080
+   # Execute from the root or /BackEnd/Agent
+   uvicorn agent_server:app --host 0.0.0.0 --port 8080
    ```

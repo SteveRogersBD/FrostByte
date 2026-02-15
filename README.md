@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="plateit_banner.png" alt="PlateIt Hero Banner" width="100%">
+</p>
+
 # PlateIt 🍽️ - The Multimodal AI Culinary Orchestrator
 
 [![Platform](https://img.shields.io/badge/Platform-Android-green.svg)](https://developer.android.com)
