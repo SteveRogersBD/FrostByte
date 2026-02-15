@@ -107,17 +107,6 @@ To host the "Brain" locally:
 
 ---
 
-## 🤖 Why Gemini 3?
-We chose **Gemini 3.0 Flash Preview** as the heart of PlateIt because its native multimodal capabilities solve the hardest problem in cooking: **Understanding Context**. Whether it's "watching" a messy cooking video to extract steps or "seeing" ingredients in a cluttered fridge, Gemini's superior reasoning and massive context window make it the only model capable of powering a true digital sous-chef.
-
----
-
-<p align="center">
-  Built for the <b>Google Gemini API Developer Competition</b> 🚀
-</p>
-
----
-
 <p align="center">
   Made with ❤️ by <a href="https://github.com/SteveRogersBD">SteveRogersBD</a>
 </p>
