@@ -1,0 +1,275 @@
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/plain_white"
+    android:padding="20dp"
+    android:fillViewport="true">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    >
+
+    <!-- Stats Action Row -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="24dp">
+
+        <TextView
+            android:id="@+id/tvChefName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chef"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="@color/tech_black"/>
+
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/btnEditProfile"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:src="@drawable/ic_edit"
+            app:tint="@color/tech_black"
+            android:layout_marginEnd="16dp"/>
+
+        <ImageView
+            android:id="@+id/btnLogout"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:src="@drawable/ic_logout"
+            app:tint="@color/chef_red"/>
+    </LinearLayout>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvActiveSession"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="8dp"
+        app:cardBackgroundColor="@color/soft_cream"
+        android:outlineSpotShadowColor="@color/chef_orange"
+        android:outlineAmbientShadowColor="@color/chef_orange"
+        android:layout_marginBottom="20dp"
+        android:visibility="gone"
+        tools:targetApi="p">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Resume Cooking"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:textColor="@color/banana_yellow"
+                android:layout_marginBottom="8dp"/>
+
+            <TextView
+                android:id="@+id/tvActiveRecipeTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Recipe Title"
+                android:textSize="15sp"
+                android:textColor="@color/tech_black"
+                android:layout_marginBottom="4dp"/>
+
+            <TextView
+                android:id="@+id/tvActiveStep"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Step ?/?"
+                android:textSize="13sp"
+                android:textColor="@color/gray_600"/>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnResume"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="Resume"
+                android:textSize="12sp"
+                android:background="@drawable/btn_grad_chef_orange"
+                android:textColor="@color/white"
+                android:layout_gravity="end"
+                android:layout_marginTop="4dp"
+                android:textAllCaps="false"
+                android:paddingHorizontal="16dp" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Stats Section -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Your Activity"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/tech_black"
+        android:paddingLeft="3dp"
+        android:layout_marginBottom="12dp"/>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvStats"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="8dp"
+        app:cardBackgroundColor="@color/chef_surface"
+        android:outlineSpotShadowColor="@color/chef_dark"
+        android:outlineAmbientShadowColor="@color/chef_dark"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        android:layout_marginBottom="24dp"
+        tools:targetApi="p">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:padding="16dp">
+
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/chartSessions"
+                android:layout_width="140dp"
+                android:layout_height="140dp"
+                tools:ignore="MissingClass" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginStart="20dp">
+
+                <TextView
+                    android:id="@+id/tvStatRecipes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0 Recipes"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/tech_black"
+                    android:drawableStart="@drawable/ic_recipe_book"
+                    android:drawablePadding="8dp"/>
+
+                <TextView
+                    android:id="@+id/tvStatDays"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0 Active Days"
+                    android:textSize="14sp"
+                    android:textColor="@color/gray_600"
+                    android:layout_marginTop="8dp"
+                    android:drawableStart="@drawable/ic_calendar"
+                    android:drawablePadding="8dp"/>
+                
+                <TextView
+                    android:id="@+id/tvStatSessions"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0 Total Sessions"
+                    android:textSize="14sp"
+                    android:textColor="@color/gray_600"
+                    android:layout_marginTop="8dp"
+                    android:drawableStart="@drawable/ic_cooking"
+                    android:drawablePadding="8dp"/>
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- My Cookbook Section (Horizontal) -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="My Cookbook"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/tech_black"
+        android:layout_marginBottom="8dp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvCookbook"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:clipToPadding="false"
+        android:padding="6dp"/>
+
+    <TextView
+        android:id="@+id/tvEmptyCookbook"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="No saved recipes yet."
+        android:gravity="center"
+        android:textSize="14sp"
+        android:textColor="@color/gray_600"
+        android:visibility="gone"
+        android:layout_marginBottom="20dp"/>
+
+    <!-- Shopping Lists Section -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Shopping Lists"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/tech_black"
+        android:layout_marginBottom="8dp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvShoppingLists"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:nestedScrollingEnabled="false"
+        tools:listitem="@layout/item_shopping_list" />
+
+    <TextView
+        android:id="@+id/tvEmptyShoppingLists"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="No shopping lists yet."
+        android:gravity="center"
+        android:textSize="14sp"
+        android:textColor="@color/gray_600"
+        android:visibility="gone"
+        android:layout_marginBottom="20dp"/>
+
+    <!-- Recent Sessions Section -->
+    <TextView
+        android:id="@+id/tvSessionsHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Recent Activity"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/tech_black"
+        android:layout_marginBottom="8dp"
+        android:visibility="gone" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvSessions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:nestedScrollingEnabled="false"
+        android:clipToPadding="false"
+        android:paddingBottom="24dp"/>
+
+</LinearLayout>
+</androidx.core.widget.NestedScrollView>
