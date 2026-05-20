@@ -92,20 +92,39 @@ flowchart LR
 
 ```mermaid
 flowchart TD
-    A["Input Received"] --> B{"Input Type"}
-    B -->|"Video URL / File"| C1["Multimodal Parsing<br/>(frames, transcript, metadata)"]
-    B -->|"Image"| C2["Vision Parsing<br/>(ingredients, dish classification)"]
-    B -->|"Website / Text"| C3["Text Parsing<br/>(recipe clues, structure)"]
+    A[Client Request] --> B{Input Router}
 
-    C1 --> D["Signal Merge"]
-    C2 --> D
-    C3 --> D
+    B -->|Video URL/File| C[Download/Load Video]
+    C --> D[Gemini Video Analysis]
+    D --> E[Extract Culinary Context]
 
-    D --> E["Entity Extraction<br/>(ingredients, quantities, tools, actions, durations)"]
-    E --> F["Recipe Assembly<br/>(ordered steps + dependencies)"]
-    F --> G["Normalization<br/>(units, dedupe, confidence checks)"]
-    G --> H["Personalization<br/>(pantry match, substitutions, serving scaling)"]
-    H --> I["Final Outputs<br/>(recipe JSON, shopping list, cooking-mode plan)"]
+    B -->|Image| F[Analyze Image]
+    F --> G[Extract Visual Context]
+
+    B -->|Audio| H[Transcribe Audio]
+    H --> I[Extract Spoken Context]
+
+    B -->|Website / Text / Other| J[Web Scrape or Text Parse]
+    J --> K[Extract Text Context]
+
+    E --> L[Extract Ingredients]
+    G --> L
+    I --> L
+    K --> L
+
+    E --> M[Extract Steps]
+    G --> M
+    I --> M
+    K --> M
+
+    L --> N[Add Ingredient Images]
+    M --> O[Build Step Sequence]
+
+    N --> P[Reform/Normalize Recipe]
+    O --> P
+
+    P --> Q[Schema Validation]
+    Q --> R[Final Recipe JSON]
 ```
 
 ---
