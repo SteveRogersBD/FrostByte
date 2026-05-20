@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="plateit_banner.png" alt="PlateIt Hero Banner" height="400" width="400">
+  <img src="plateit_banner.png" alt="PlateIt Hero Banner" width="100%">
 </p>
 
 # PlateIt 🍽️ - The Multimodal AI Culinary Orchestrator
@@ -60,6 +60,54 @@ PlateIt is built on a modular architecture that separates the intelligence layer
 - **[Backend Architecture & ER Diagrams](./BackEnd/README.md)**: Deep dive into the database schema, API routing, and system design.
 - **[Agent Workflow & Intelligence](./BackEnd/Agent/README.md)**: Explore the LangGraph state machines, the "Better Agent" workflow, and the toolsets powering the AI Chef.
 
+### System Architecture Diagram
+
+```mermaid
+flowchart LR
+    U["User"] --> M["Android App (Java)"]
+
+    M -->|"Auth / Profile / Sessions"| API["FastAPI Backend"]
+    M -->|"Recipe Extraction Request<br/>(url, video, image, text)"| API
+    M -->|"Chat + Cooking Updates"| API
+
+    API --> ORCH["LangGraph Orchestrator"]
+    ORCH --> IR{"Input Router"}
+    IR --> VX["Video/Image/Text/Web Extractors"]
+    VX --> CE["Culinary Context Extractor"]
+    CE --> RP["Recipe Planner + Normalizer"]
+    RP --> SV["Schema Validator"]
+    SV --> OC["Output Composer"]
+
+    ORCH --> TOOLS["Tool Layer<br/>(search, media download, enrichment)"]
+    TOOLS --> EXT["External APIs<br/>(Gemini, OpenAI, Recipe/Search providers)"]
+
+    API --> DB["Supabase PostgreSQL"]
+    API --> CACHE["Session/State Cache"]
+
+    OC --> API
+    API --> M
+```
+
+### Agentic Workflow (Extraction Pipeline)
+
+```mermaid
+flowchart TD
+    A["Input Received"] --> B{"Input Type"}
+    B -->|"Video URL / File"| C1["Multimodal Parsing<br/>(frames, transcript, metadata)"]
+    B -->|"Image"| C2["Vision Parsing<br/>(ingredients, dish classification)"]
+    B -->|"Website / Text"| C3["Text Parsing<br/>(recipe clues, structure)"]
+
+    C1 --> D["Signal Merge"]
+    C2 --> D
+    C3 --> D
+
+    D --> E["Entity Extraction<br/>(ingredients, quantities, tools, actions, durations)"]
+    E --> F["Recipe Assembly<br/>(ordered steps + dependencies)"]
+    F --> G["Normalization<br/>(units, dedupe, confidence checks)"]
+    G --> H["Personalization<br/>(pantry match, substitutions, serving scaling)"]
+    H --> I["Final Outputs<br/>(recipe JSON, shopping list, cooking-mode plan)"]
+```
+
 ---
 
 ## 🚀 Installation Guide
@@ -104,6 +152,17 @@ To host the "Brain" locally:
    pip install -r requirements.txt
    uvicorn agent_server:app --host 0.0.0.0 --port 8080
    ```
+
+---
+
+## 🤖 Why Gemini 3?
+We chose **Gemini 3.0 Flash Preview** as the heart of PlateIt because its native multimodal capabilities solve the hardest problem in cooking: **Understanding Context**. Whether it's "watching" a messy cooking video to extract steps or "seeing" ingredients in a cluttered fridge, Gemini's superior reasoning and massive context window make it the only model capable of powering a true digital sous-chef.
+
+---
+
+<p align="center">
+  Built for the <b>Google Gemini API Developer Competition</b> 🚀
+</p>
 
 ---
 
